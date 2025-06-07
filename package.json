@@ -1,0 +1,109 @@
+{
+  "name": "ncryptor",
+  "displayName": "NCryptor",
+  "description": "A simpe vscode extension to encrpyt your files partially or completely using different algorithms",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.encryptFile",
+        "title": "Encrypt File with NCryptor"
+      },
+      {
+        "command": "extension.decryptFile",
+        "title": "Decrypt File with NCryptor"
+      },
+      {
+        "command": "extension.encryptSelection",
+        "title": "Encrypt Selection with NCryptor"
+      },
+      {
+        "command": "extension.decryptSelection",
+        "title": "Decrypt Selection with NCryptor"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "ncryptor.menu",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "extension.encryptFile"
+        },
+        {
+          "command": "extension.decryptFile"
+        }
+      ],
+      "ncryptor.menu": [
+        {
+          "command": "extension.encryptSelection",
+          "when": "editorHasSelection",
+          "group": "1_text"
+        },
+        {
+          "command": "extension.decryptSelection",
+          "when": "editorHasSelection",
+          "group": "1_text"
+        },
+        {
+          "command": "extension.encryptFile",
+          "when": "explorerResourceIsFolder == false",
+          "group": "2_file"
+        },
+        {
+          "command": "extension.decryptFile",
+          "when": "explorerResourceIsFolder == false",
+          "group": "2_file"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "ncryptor.menu",
+        "label": "Ncrypt"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.100.0",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.25.3",
+    "eslint": "^9.25.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0"
+  }
+}
